@@ -1,0 +1,24 @@
+# Core ML
+torch==2.9.1+cpu
+torchvision==0.24.1+cpu
+torchaudio==2.9.1+cpu
+
+# YOLO
+ultralytics==8.3.248
+ultralytics-thop==2.0.18
+
+# Data & ML utils
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.7.2
+scipy==1.15.3
+tqdm==4.67.1
+
+# Visualization & images
+matplotlib==3.10.8
+opencv-python==4.12.0.88
+pillow==12.0.0
+
+# Config & utils
+PyYAML==6.0.3
+requests==2.32.5
