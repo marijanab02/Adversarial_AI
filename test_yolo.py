@@ -3,13 +3,14 @@ import os
 import pandas as pd
 import torch
 
-MODEL_PATH = "runs/detect/heridal_training/weights/best.pt"
-DATA_YAML = "data.yaml"
+MODEL_PATH = "runs/detect/heridal_training_FGSM/weights/best.pt"
+DATA_YAML = "data_fgsm.yaml"
 
-TEST_IMG_DIR = "dataset/images/test"
-TEST_LBL_DIR = "dataset/labels/test"
+TEST_IMG_DIR = "dataset/images/adversarial/fgsm_eps_0.005"
+TEST_LBL_DIR = "dataset/labels/adversarial/fgsm_eps_0.005"
 
-OUTPUT_CSV = "test_results_per_image.csv"
+OUTPUT_CSV = "results_after_adversial_training/test_results_per_image_fgsm_new_0.005.csv"
+OUTPUT_GLOBAL_CSV = "results_after_adversial_training/global_results_fgsm_new_0.005.csv"
 
 CONF_THRES = 0.25
 IOU_THRES = 0.5
@@ -18,6 +19,7 @@ DEVICE = "cpu"
 # Učitaj model
 model = YOLO(MODEL_PATH)
 
+# Globalni rezultati
 print("Pokrećem evaluaciju (YOLO val)")
 metrics = model.val(
     data=DATA_YAML,
@@ -25,13 +27,23 @@ metrics = model.val(
     device=DEVICE
 )
 
-print("\nGLOBALNI REZULTATI")
-print(f"mAP50:      {metrics.box.map50:.4f}")
-print(f"mAP50-95:   {metrics.box.map:.4f}")
-print(f"Precision:  {metrics.box.mp:.4f}")
-print(f"Recall:     {metrics.box.mr:.4f}")
+global_results = {
+    "mAP50": round(metrics.box.map50, 4),
+    "mAP50-95": round(metrics.box.map, 4),
+    "Precision": round(metrics.box.mp, 4),
+    "Recall": round(metrics.box.mr, 4)
+}
 
-# PER-IMAGE ANALIZA
+print("\nGLOBALNI REZULTATI")
+for k, v in global_results.items():
+    print(f"{k}: {v}")
+
+# Spremi globalne rezultate u CSV
+df_global = pd.DataFrame([global_results])
+df_global.to_csv(OUTPUT_GLOBAL_CSV, index=False)
+print(f"Globalni rezultati spremljeni u {OUTPUT_GLOBAL_CSV}")
+
+#Per-image analiza
 
 results = []
 
@@ -50,10 +62,8 @@ for img_name in sorted(os.listdir(TEST_IMG_DIR)):
     img_path = os.path.join(TEST_IMG_DIR, img_name)
     label_path = os.path.join(TEST_LBL_DIR, img_name.replace(".jpg", ".txt"))
 
-    # Ground truth
     gt_count = load_gt_count(label_path)
 
-    # Predikcija
     preds = model.predict(
         source=img_path,
         conf=CONF_THRES,
@@ -78,8 +88,7 @@ for img_name in sorted(os.listdir(TEST_IMG_DIR)):
         "false_negatives": fn
     })
 
-#Spremi CSV
+# Spremi CSV po slici
 df = pd.DataFrame(results)
 df.to_csv(OUTPUT_CSV, index=False)
-
-print(f"\nRezultati spremljeni u {OUTPUT_CSV}")
+print(f"Per-image rezultati spremljeni u {OUTPUT_CSV}")
