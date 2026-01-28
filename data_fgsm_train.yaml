@@ -1,0 +1,6 @@
+train: dataset/adversarial_train/images
+val: dataset/images/val
+test: dataset/images/test
+
+nc: 1
+names: ["human"]

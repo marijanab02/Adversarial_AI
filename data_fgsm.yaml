@@ -1,0 +1,8 @@
+path: dataset
+
+train: images/train
+val: images/val
+test: images/adversarial/fgsm_eps_0.005
+
+names:
+  0: human

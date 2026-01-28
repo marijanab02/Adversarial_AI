@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import os
 
-DATA_YAML = "data.yaml"
+DATA_YAML = "data_fgsm_train.yaml"
 
 MODEL = "yolov8n.pt"
 
@@ -25,7 +25,7 @@ model.train(
     device=DEVICE,
     imgsz=640,      
     save=True,       
-    name="heridal_training"
+    name="heridal_training_FGSM"
 )
 
 print("Treniranje završeno!")
