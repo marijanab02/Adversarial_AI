@@ -6,12 +6,11 @@ import torch
 MODEL_PATH = "runs/detect/heridal_training_FGSM/weights/best.pt"
 DATA_YAML = "data_fgsm.yaml"
 
-TEST_IMG_DIR = "dataset/images/adversarial/fgsm_eps_0.005"
-TEST_LBL_DIR = "dataset/labels/adversarial/fgsm_eps_0.005"
+TEST_IMG_DIR = "dataset/images/adversarial/pgd_eps_0.05_alpha_0.0125_iters_15"
+TEST_LBL_DIR = "dataset/labels/adversarial/pgd_eps_0.05_alpha_0.0125_iters_15"
 
-OUTPUT_CSV = "results_after_adversial_training/test_results_per_image_fgsm_new_0.005.csv"
-OUTPUT_GLOBAL_CSV = "results_after_adversial_training/global_results_fgsm_new_0.005.csv"
-
+OUTPUT_CSV = "results_pgd/test_results_per_image_pgd_FGSM_0.05_alpha_0.0125_iters_15.csv"
+OUTPUT_GLOBAL_CSV = "results_pgd/global_results_pgd_FGSM_0.05_alpha_0.0125_iters_15.csv"
 CONF_THRES = 0.25
 IOU_THRES = 0.5
 DEVICE = "cpu"
