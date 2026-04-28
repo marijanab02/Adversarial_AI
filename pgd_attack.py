@@ -7,10 +7,10 @@ from tqdm import tqdm
 MODEL_PATH = "runs/detect/heridal_training/weights/best.pt"
 
 INPUT_DIR = "dataset/images/test"
-OUTPUT_DIR = "dataset/images/adversarial/pgd_eps_0.05_alpha_0.0125_iters_15"
+OUTPUT_DIR = "dataset/images/adversarial/pgd_eps_0.1_alpha_0.025_iters_15"
 
-EPSILON = 0.05
-ALPHA = 0.0125     # step size
+EPSILON = 0.1
+ALPHA = 0.025     # step size
 ITERATIONS = 15   # broj koraka (PGD!)
 
 DEVICE = "cpu"
